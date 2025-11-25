@@ -8,12 +8,12 @@ fun main() {
     val dictionary = mutableListOf<Word>()
 
     wordsFile.readLines().forEach {
-        val lines = it.split("|")
+        val line = it.split("|")
         dictionary.add(
             Word(
-                lines[0],
-                lines[1],
-                lines.getOrNull(2)?.toInt() ?: 0
+                line[0],
+                line[1],
+                line.getOrNull(2)?.toInt() ?: 0
             )
         )
     }
