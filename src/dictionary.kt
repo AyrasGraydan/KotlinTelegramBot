@@ -5,9 +5,24 @@ fun main() {
     wordsFile.createNewFile()
     wordsFile.writeText("hello|привет|0\ndog|собака|0\ncat|кошка")
 
-    val dictionary = mutableListOf<Word>()
+    val dictionary = loadDictionary(wordsFile)
 
-    wordsFile.readLines().forEach {
+    while(true) {
+        println("Меню:\n1 – Учить слова\n2 – Статистика\n0 – Выход")
+        print("Ваш выбор: ")
+        when(readln().toIntOrNull()){
+            1 -> println("Выбор пункта: Учить слова")
+            2 -> println("Выбор пункта: Статистика")
+            0 -> break
+            else -> println("Такого вырианта нет")
+        }
+        println()
+    }
+}
+
+fun loadDictionary(file: File): MutableList<Word>{
+    val dictionary = mutableListOf<Word>()
+    file.readLines().forEach {
         val line = it.split("|")
         dictionary.add(
             Word(
@@ -17,6 +32,5 @@ fun main() {
             )
         )
     }
-
-    dictionary.forEach { println(it) }
+    return dictionary
 }
