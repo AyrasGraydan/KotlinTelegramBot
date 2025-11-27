@@ -4,11 +4,11 @@ const val VALUE_OF_WORD_LEARNED = 3
 
 fun main() {
     val wordsFile = File("words.txt")
-    wordsFile.createNewFile()
-    wordsFile.writeText(
-        "hello|привет|6\ndog|собака|0\ncat|кошка" +
-                "\nowl|сова|4\nsnake|змея|7\nrain|дождь|6"
-    )
+
+    if (!wordsFile.exists()){
+        wordsFile.createNewFile()
+        fillFile(wordsFile)
+    }
 
     val dictionary = loadDictionary(wordsFile)
 
@@ -21,7 +21,7 @@ fun main() {
                 val totalCount = dictionary.size
                 val learnedCount = dictionary
                     .count { it.correctAnswersCount >= VALUE_OF_WORD_LEARNED }
-                val percent = 100 * learnedCount / totalCount
+                val percent = if (totalCount != 0) 100 * learnedCount / totalCount else 0
                 println("Выучено $learnedCount из $totalCount слов | $percent%")
             }
 
@@ -43,4 +43,11 @@ fun loadDictionary(file: File): MutableList<Word> {
         )
     }
     return dictionary
+}
+
+fun fillFile(file: File) {
+    file.writeText(
+        "hello|привет|6\ndog|собака|0\ncat|кошка" +
+                "\nowl|сова|4\nsnake|змея|7\nrain|дождь|6"
+    )
 }
