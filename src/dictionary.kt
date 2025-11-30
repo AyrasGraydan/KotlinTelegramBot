@@ -21,12 +21,12 @@ fun main() {
                 val totalCount = dictionary.size
                 val learnedCount = dictionary
                     .count { it.correctAnswersCount >= VALUE_OF_WORD_LEARNED }
-                val percent = if (totalCount != 0) 100 * learnedCount / totalCount else 0
+                val percent = if (totalCount != 0) (learnedCount * 100) / totalCount else 0
                 println("Выучено $learnedCount из $totalCount слов | $percent%")
             }
 
             0 -> break
-            else -> println("Такого вырианта нет")
+            else -> println("Такого варианта нет")
         }
         println()
     }
