@@ -24,31 +24,33 @@ fun main() {
         when (readln().toIntOrNull()) {
             1 -> {
                 println()
-                println("${GRAY}Введите 0 для выхода ")
+                println("${GRAY}0 - Выход$RESET_COLOR")
+                while (true) {
+                    val notLearnedList = dictionary.filter { it.correctAnswersCount < MAX_QUESTION_WORDS_SIZE }
 
-                val notLearnedList = mutableListOf<Word>()
-                dictionary.forEach {
-                    if (it.correctAnswersCount < VALUE_OF_WORD_LEARNED)
-                        notLearnedList.add(it)
-                }
-
-                if (notLearnedList.isEmpty()) {
-                    println("Все слова выучены!")
-                } else {
-                    while (true) {
-                        val questionWords =
-                            notLearnedList.shuffled().take(MAX_QUESTION_WORDS_SIZE)
-                        val correctAnswer = questionWords.random()
-
-                        println()
-                        println("$BLUE${correctAnswer.original}")
-                        questionWords.forEachIndexed { index, word ->
-                            println("$ORANGE${index + 1}$RESET_COLOR - ${word.translate}")
-                        }
-                        print("Ваш выбор: ")
-                        if (readln().toIntOrNull() == 0)
-                            break
+                    if (notLearnedList.isEmpty()) {
+                        println("Все слова выучены!")
+                        break
                     }
+
+                    var questionWords =
+                        notLearnedList.shuffled().take(MAX_QUESTION_WORDS_SIZE).toMutableList()
+                    val correctAnswer = questionWords.random()
+
+                    if (questionWords.size != MAX_QUESTION_WORDS_SIZE) {
+                        questionWords.addAll(dictionary.filter { it.correctAnswersCount >= MAX_QUESTION_WORDS_SIZE }
+                            .shuffled().take(MAX_QUESTION_WORDS_SIZE - questionWords.size).toMutableList())
+                        questionWords = questionWords.shuffled() as MutableList
+                    }
+
+                    println()
+                    println("$BLUE${correctAnswer.original}")
+                    questionWords.forEachIndexed { index, word ->
+                        println("$ORANGE${index + 1}$RESET_COLOR - ${word.translate}")
+                    }
+                    print("Ваш выбор: ")
+                    if (readln().toIntOrNull() == 0)
+                        break
                 }
             }
 
@@ -82,7 +84,7 @@ fun loadDictionary(file: File): MutableList<Word> {
 
 fun fillFile(file: File) {
     file.writeText(
-        "hello|привет|1\ndog|собака|0\ncat|кошка" +
-                "\nowl|сова|2\nsnake|змея\nrain|дождь|6"
+        "hello|привет|\ndog|собака|0\ncat|кошка" +
+                "\nowl|сова|1\nsnake|змея\nrain|дождь|"
     )
 }
