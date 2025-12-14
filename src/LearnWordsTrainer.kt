@@ -40,9 +40,9 @@ class LearnWordsTrainer {
         val correctAnswer = questionWords.random()
 
         if (questionWords.size != MAX_QUESTION_WORDS_SIZE) {
-            dictionary.filterNot { it in (questionWords as Set<*>) }
+            questionWords += dictionary.filterNot { it in questionWords.toSet()}
                 .shuffled().take(MAX_QUESTION_WORDS_SIZE - questionWords.size)
-            questionWords = questionWords.shuffled() as MutableList
+            questionWords = questionWords.shuffled().toMutableList()
         }
 
         question = Question(questionWords, correctAnswer)

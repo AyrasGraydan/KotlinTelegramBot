@@ -8,9 +8,9 @@ const val BLUE = "\u001b[36m"
 const val GRAY = "\u001b[37m"
 const val RESET_COLOR = "\u001b[0m"
 
-fun statisticsToString(value: Statistics) = value.run { "Выучено $learnedCount из $totalCount слов | $percent%" }
+fun Statistics.asString() = "Выучено $learnedCount из $totalCount слов | $percent%"
 
-fun questionToString(value: Question) = value.variants.mapIndexed { index, word ->
+fun Question.asString() = variants.mapIndexed { index, word ->
     " $ORANGE${index + 1}$RESET_COLOR - ${word.translate}"
 }.joinToString(separator = "\n") + "\n----------\n" + " ${GRAY}0 - Выход$RESET_COLOR"
 
@@ -32,7 +32,7 @@ fun main() {
 
                     println()
                     println("$BLUE${question.correctAnswer.original}")
-                    println(questionToString(question))
+                    println(question.asString())
                     print("Ваш выбор: ")
 
                     var userAnswerInput = readln().toIntOrNull() ?: -1
@@ -56,7 +56,7 @@ fun main() {
 
             2 -> {
                 val statistics = trainer.getStatistics()
-                println(statisticsToString(statistics))
+                println(statistics.asString())
             }
 
             0 -> break
