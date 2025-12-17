@@ -1,5 +1,4 @@
-const val VALUE_OF_WORD_LEARNED = 3
-const val MAX_QUESTION_WORDS_SIZE = 4
+import java.lang.Exception
 
 const val RED = "\u001b[31m"
 const val GREEN = "\u001b[32m"
@@ -16,10 +15,13 @@ fun Question.asString() = variants.mapIndexed { index, word ->
 
 fun main() {
 
-    val trainer = LearnWordsTrainer()
+    val trainer = try{LearnWordsTrainer()} catch (e: Exception){
+        println("${RED}Incorrect words file")
+        return
+    }
 
     while (true) {
-        println("Меню:\n1 – Учить слова\n2 – Статистика\n0 – Выход")
+        println("Меню:\n1 – Учить слова, 2 – Статистика, 0 – Выход")
         print("Ваш выбор: ")
         when (readln().toIntOrNull()) {
             1 -> {
