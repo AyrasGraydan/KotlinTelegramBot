@@ -1,5 +1,3 @@
-import java.lang.Exception
-
 const val RED = "\u001b[31m"
 const val GREEN = "\u001b[32m"
 const val ORANGE = "\u001b[33m"
