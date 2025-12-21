@@ -4,7 +4,10 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
 fun main(args: Array<String>) {
-    val botToken = args.getOrNull(1) ?: return
+    val botToken = args.getOrNull(1) ?: run {
+        println("Unable to find token")
+        return
+    }
     var updateId = 0
 
     while (true) {
