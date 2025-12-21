@@ -4,7 +4,7 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
 fun main(args: Array<String>) {
-    val botToken = args[0]
+    val botToken = args.getOrNull(1) ?: return
     var updateId = 0
 
     while (true) {
