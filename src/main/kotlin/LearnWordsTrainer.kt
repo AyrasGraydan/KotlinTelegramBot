@@ -90,5 +90,4 @@ class LearnWordsTrainer(
         wordsFile.writeText(
             dictionary.joinToString(separator = "\n") { "${it.original}|${it.translate}|${it.correctAnswersCount}" })
     }
-
 }
