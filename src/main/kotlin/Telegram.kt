@@ -4,23 +4,23 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
 fun main(args: Array<String>) {
-    val botToken = args[0]
+    val botToken = args.getOrNull(0) ?: run {
+        println("Unable to find token")
+        return
+    }
     var updateId = 0
 
     while (true) {
         Thread.sleep(2000)
         val updates = getUpdates(botToken, updateId)
-        println(updates)
 
-        val firstString = "\"update_id\":"
-        val lastString = ",\n\"message\":"
+        val matchUpdate = "\"update_id\":(\\d+)".toRegex().findAll(updates)
+        updateId = matchUpdate.lastOrNull()?.let { it.groupValues.getOrNull(1)?.toInt()?.plus(1) } ?: updateId
 
-        val firstIndex = updates.lastIndexOf(firstString)
-        val lastIndex = updates.lastIndexOf(lastString)
-        if (firstIndex == -1 || lastIndex == -1) continue
+        val matchText: MatchResult? = "\"text\":\"(.*?)\"".toRegex().find(updates)
+        val text = matchText?.groupValues?.get(1)
 
-        val lastUpdateId = updates.substring(firstIndex + firstString.length, lastIndex)
-        updateId = lastUpdateId.toInt() + 1
+        println(text)
     }
 }
 
