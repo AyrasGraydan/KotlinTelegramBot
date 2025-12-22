@@ -4,7 +4,7 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
 fun main(args: Array<String>) {
-    val botToken = args.getOrNull(1) ?: run {
+    val botToken = args.getOrNull(0) ?: run {
         println("Unable to find token")
         return
     }
@@ -14,9 +14,13 @@ fun main(args: Array<String>) {
         Thread.sleep(2000)
         val updates = getUpdates(botToken, updateId)
 
-        val matchResult = "\"update_id\":(\\d+?),".toRegex().findAll(updates)
-        updateId = matchResult.lastOrNull()?.let { it.groupValues.getOrNull(1)?.toInt()?.plus(1) } ?: updateId
-        println(updateId)
+        val matchUpdate = "\"update_id\":(\\d+)".toRegex().findAll(updates)
+        updateId = matchUpdate.lastOrNull()?.let { it.groupValues.getOrNull(1)?.toInt()?.plus(1) } ?: updateId
+
+        val matchText: MatchResult? = "\"text\":\"(.*?)\"".toRegex().find(updates)
+        val text = matchText?.groupValues?.get(1)
+
+        println(text)
     }
 }
 
