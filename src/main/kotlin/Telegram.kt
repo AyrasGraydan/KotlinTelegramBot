@@ -15,7 +15,7 @@ fun main(args: Array<String>) {
         val userMessage = telegramBotService.getUserMessage(updates)
         val chatId = telegramBotService.getChatId(updates)
 
-        if (userMessage == "Hello".lowercase() && chatId != null)
+        if (userMessage.equals("hello", true) && chatId != null)
             telegramBotService.sendMessage(botToken, chatId, "Hello")
     }
 }
