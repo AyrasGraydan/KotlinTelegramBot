@@ -2,7 +2,6 @@ val regexUpdateId = "\"update_id\":(\\d+)".toRegex()
 val regexUserMessage = "\"text\":\"(.*?)\"".toRegex()
 val regexChatId = "\"chat\":\\{\"id\":(\\d+)".toRegex()
 
-
 class Parser {
 
     fun getLastInt(updates: String, regex: Regex): Int? {
